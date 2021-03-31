@@ -1,5 +1,5 @@
 # Sudoku-Generator
-Ramdom Create Sudoku Puzzle
+Ramdom Create Sudoku Puzzle in Python
 
 First, randomly create a completed sudoku solution.
 From the sudoku solution, constantly remove numbers at random locations.
