@@ -20,28 +20,24 @@ def Solution_Count(pz:[], n:int, Nof_solution:int):
 		for v in l:
 			pz[row][col] = v
 			Nof_solution = Solution_Count(pz, n+1, Nof_solution)
-			pz[row][col] = 0
+		pz[row][col] = 0
 	return Nof_solution	
 
 def SudokuSolver(pz:[], n:int):
 	if n==81:
 		return True
 	(row,col) = divmod(n,9)
-	if pz[row][col]>0:
+	l = list(PossibleValueAtPosition(pz, row,col))
+	random.shuffle(l)
+	for v in l:
+		pz[row][col] = v
 		if SudokuSolver(pz, n+1):
 			return True
-	else:
-		l = list(PossibleValueAtPosition(pz, row,col))
-		random.shuffle(l)
-		for v in l:
-			pz[row][col] = v
-			if SudokuSolver(pz, n+1):
-				return True
-			pz[row][col] = 0
+	pz[row][col] = 0
 	return False
 
-def DigHoles(pz:[], randomlist:[], n:int):
-	if n>=81:
+def DigHoles(pz:[], randomlist:[], n:int, nof_holes:int):
+	if n>=81 or nof_holes>=64:
 		return
 	(row,col) = divmod(randomlist[n],9)
 	if pz[row][col]>0:
@@ -53,7 +49,7 @@ def DigHoles(pz:[], randomlist:[], n:int):
 			print(pz)
 			print("{} zeros".format(sum(pz.flat==0)))
 			print()
-	DigHoles(pz, randomlist, n+1)
+	DigHoles(pz, randomlist, n+1, nof_holes)
 
 def main():
 	puzzle = np.zeros((9,9), dtype=int)
@@ -61,7 +57,7 @@ def main():
 	print(puzzle, "--------- Answer\n")
 	randomlist = list(range(81))
 	random.shuffle(randomlist)
-	DigHoles(puzzle, randomlist, 0)
+	DigHoles(puzzle, randomlist, 0, 0)
 
 if __name__ == "__main__":
 	main()
